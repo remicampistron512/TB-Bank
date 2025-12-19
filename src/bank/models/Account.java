@@ -1,4 +1,61 @@
 package bank.models;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class Account {
+    String accountNumber;
+    Customer accountOwner;
+    BigDecimal balance;
+    BigDecimal overdraftLimit;
+    BigDecimal dailyWithdrawalLimit;
+    List<Operation> operations;
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public Customer getAccountOwner() {
+        return accountOwner;
+    }
+
+    public void setAccountOwner(Customer accountOwner) {
+        this.accountOwner = accountOwner;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
+
+    public BigDecimal getOverdraftLimit() {
+        return overdraftLimit;
+    }
+
+    public void setOverdraftLimit(BigDecimal overdraftLimit) {
+        this.overdraftLimit = overdraftLimit;
+    }
+
+    public BigDecimal getDailyWithdrawalLimit() {
+        return dailyWithdrawalLimit;
+    }
+
+    public void setDailyWithdrawalLimit(BigDecimal dailyWithdrawalLimit) {
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+    }
+
+    public List<Operation> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(List<Operation> operations) {
+        this.operations = operations;
+    }
 }
