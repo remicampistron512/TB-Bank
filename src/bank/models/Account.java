@@ -11,6 +11,15 @@ public class Account {
     BigDecimal dailyWithdrawalLimit;
     List<Operation> operations;
 
+    public Account(String accountNumber, Customer accountOwner, BigDecimal balance, BigDecimal overdraftLimit, BigDecimal dailyWithdrawalLimit, List<Operation> operations) {
+        this.accountNumber = accountNumber;
+        this.accountOwner = accountOwner;
+        this.balance = balance;
+        this.overdraftLimit = overdraftLimit;
+        this.dailyWithdrawalLimit = dailyWithdrawalLimit;
+        this.operations = operations;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }
