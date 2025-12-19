@@ -31,6 +31,7 @@ class Operation {
     - amount : BigDecimal
     - type : Enum
     - status : Enum
+    - date : Date
 }
 
 class User {
