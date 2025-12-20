@@ -1,11 +1,11 @@
 package bank.models;
 
-public class User {
+public abstract class User {
     private Long userId;
     private String firstName;
     private String lastName;
 
-    public User(Long userId, String firstName, String lastName) {
+    protected User(Long userId, String firstName, String lastName) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
