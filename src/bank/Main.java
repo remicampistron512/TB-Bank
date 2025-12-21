@@ -3,61 +3,76 @@ import bank.daos.DaoException;
 import bank.models.Customer;
 import java.util.List;
 import java.util.Scanner;
+import bank.ui.ConsoleMenus;
 
 void main() {
-    BankingService bankingService = new BankingService();
-    String choice = "init";
-    Scanner sc = new Scanner(System.in);
-  while(!choice.equalsIgnoreCase("q")){
-    System.out.println("Choisissez une action");
-    System.out.println("1. afficher les clients");
-    System.out.println("2. Créez un client");
 
-    System.out.println("q. quitter");
+  var service = new BankingService(/* customerDao, accountDao, ... */);
+  var menus = new ConsoleMenus(service);
+  menus.run();
+
+//    BankingService bankingService = new BankingService();
+//    String choice = "init";
+//    Scanner sc = new Scanner(System.in);
+//  while(!choice.equalsIgnoreCase("q")){
+//    System.out.println("Choisissez une action");
+//    System.out.println("1. afficher les clients");
+//    System.out.println("2. Créez un client");
+//
+//    System.out.println("q. quitter");
+//
+//
+//    System.out.print("Entrez votre choix: ");
+//
+//
+//      choice = sc.nextLine();
+//      switch (choice) {
+//        case "1" -> {
+//          showCustomers(bankingService);
+//          System.out.println("Choisissez un client");
+//          System.out.println("Entrez l'id du client : ");
+//          choice = sc.nextLine();
+//          }
+//
+//        case "2" -> {
+//          System.out.println("Créez un client");
+//          String userName = askForFullName(choice,sc);
+//          if(userName != null){
+//            String firstName = splitFullName(userName,1) ;
+//            String lastName = splitFullName(userName,2);
+//            if(firstName != null && lastName != null){
+//              createCustomer(bankingService,firstName,lastName);
+//            } else {
+//              System.out.println("Rentrez un nom valide");
+//            }
+//          } else {
+//            System.out.println("Rentrez un nom valide");
+//          }
+//
+//          continue;
+//
+//        }
+//
+//        case "q" -> {
+//          System.out.print("Au revoir");
+//        }
+//
+//
+//      }
+//
+//    }
+//
+//
+//
+//
 
 
-    System.out.print("Entrez votre choix: ");
+}
 
+private String askForId(Scanner sc) {
+    System.out.println("Entrez l'id du client : ");
 
-      choice = sc.nextLine();
-      switch (choice) {
-        case "1" -> {
-          showCustomers(bankingService);
-          System.out.println("Choisissez un client");
-
-          }
-
-        case "2" -> {
-          System.out.println("Créez un client");
-          String userName = askForFullName(choice,sc);
-          if(userName != null){
-            String firstName = splitFullName(userName,1) ;
-            String lastName = splitFullName(userName,2);
-            if(firstName != null && lastName != null){
-              createCustomer(bankingService,firstName,lastName);
-            } else {
-              System.out.println("Rentrez un nom valide");
-            }
-          } else {
-            System.out.println("Rentrez un nom valide");
-          }
-
-          continue;
-
-        }
-
-        case "q" -> {
-          System.out.print("Au revoir");
-        }
-
-
-      }
-
-    }
-
-
-
-
+    return sc.nextLine();
 
 
 }
