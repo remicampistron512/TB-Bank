@@ -1,16 +1,19 @@
 package bank.ui;
 
 import bank.business.BankingService;
+import bank.daos.DaoException;
+import bank.models.Customer;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleMenus {
   private final Scanner in = new Scanner(System.in);
   private static final String CHOICE_TEXT = "Choose: ";
   private final BankingService service;
+
   public ConsoleMenus(BankingService service) {
     this.service = service;
   }
-
 
   public void run() {
     mainMenu();   // blocks until user exits
@@ -32,6 +35,7 @@ public class ConsoleMenus {
       }
     }
   }
+
   private int readInt(String prompt, int min, int max) {
     while (true) {
       System.out.print(prompt);
@@ -71,7 +75,7 @@ public class ConsoleMenus {
   }
 
   private void deposit() {
-    
+
   }
 
   private void openAccount() {
@@ -88,17 +92,71 @@ public class ConsoleMenus {
       int choice = readInt(CHOICE_TEXT, 0, 2);
       switch (choice) {
         case 1 -> listCustomers();
-        case 2 -> createCustomer();
+        case 2 -> createCustomerMenu();
         case 0 -> { return; } // back to main menu
       }
     }
   }
 
-  private void listCustomers() {
+  private void createCustomerMenu() {
+    while (true) {
+      System.out.println("\n--- Customer creation ---");
+      System.out.println("0) Back");
+
+      String[] fullName = getFullName();
+      if(fullName.length != 0 ) {
+        if(fullName[0].equals("0")) {
+          return;
+        } else {
+          createCustomer(fullName[0],fullName[1]);
+          return;
+          }
+      }
+    }
   }
 
-  private void createCustomer() {
-    
+  private String[] getFullName() {
+
+
+    try {
+      System.out.println("Enter full name : ");
+      String fullName = in.nextLine().trim();
+      String trimmed = fullName.trim();
+      return (trimmed.split("\\s+", 2));
+    } catch (Exception  e){
+      System.out.print("Customer Full name : ");
+      return new String[0];
+    }
+  }
+
+  private void listCustomers() {
+
+    List<Customer> customersList = service.listCustomers();
+
+    if (customersList.isEmpty()) {
+      System.out.println("No customers found.");
+      return;
+    }
+
+    System.out.println("============== Customers ==============");
+    System.out.printf("%-4s %-20s %-20s%n", "No.", "First name", "Last name");
+    System.out.println("---------------------------------------");
+
+    int i = 1;
+    for (Customer customer : customersList) {
+      System.out.printf("%-4d %-20s %-20s%n", i++, customer.getFirstName(), customer.getLastName());
+    }
+    System.out.println("=======================================");
+
+  }
+
+  private void createCustomer(String firstName,String lastName) {
+    try {
+      service.createCustomer(firstName,lastName);
+      System.out.print ("l'utilisateur " + firstName + " " +  lastName +" a été créé");
+    }  catch (DaoException e) {
+      System.out.println("Database error: " + e.getMessage());
+    }
   }
 
 }
