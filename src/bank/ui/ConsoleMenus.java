@@ -5,6 +5,7 @@ import bank.daos.DaoException;
 import bank.models.Customer;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ConsoleMenus {
   private final Scanner in = new Scanner(System.in);
@@ -63,7 +64,7 @@ public class ConsoleMenus {
 
       int choice = readInt(CHOICE_TEXT, 0, 3);
       switch (choice) {
-        case 1 -> openAccount();
+        case 1 -> openAccountMenu();
         case 2 -> deposit();
         case 3 -> transfer();
         case 0 -> { return; }
@@ -78,11 +79,45 @@ public class ConsoleMenus {
 
   }
 
-  private void openAccount() {
+  private void openAccountMenu() {
+      while (true) {
+          System.out.println("\n--- Open an account for which user ? ---");
 
+          listCustomers();
+
+          List<Customer> customersList = service.listCustomers();
+          int choice = readInt(CHOICE_TEXT, 0, customersList.size());
+
+          if(choice == 0){
+              return;
+          } else {
+              String accountName = generateAccountName();
+              openAccount(customersList.get(choice-1),accountName);
+          }
+
+      }
   }
 
-  private void customersMenu() {
+
+
+    // Génère: FR-XXXX-XXXX (X = chiffre)
+    private String generateAccountName() {
+        int part1 = ThreadLocalRandom.current().nextInt(0, 10000); // 0..9999
+        int part2 = ThreadLocalRandom.current().nextInt(0, 10000); // 0..9999
+        return String.format("FR-%04d-%04d", part1, part2);
+    }
+
+    private void openAccount(Customer customer,String accountName) {
+        try {
+            service.createAccountForCustomer(customer,accountName);
+            System.out.print ("An account (" + accountName + ") for "+ customer.getFirstName() + " " + customer.getLastName() + "has been" +
+                    "created");
+        }  catch (DaoException e) {
+            System.out.println("Database error: " + e.getMessage());
+        }
+    }
+
+    private void customersMenu() {
     while (true) {
       System.out.println("\n--- Customers ---");
       System.out.println("1) List customers");
@@ -105,12 +140,10 @@ public class ConsoleMenus {
 
       String[] fullName = getFullName();
       if(fullName.length != 0 ) {
-        if(fullName[0].equals("0")) {
-          return;
-        } else {
-          createCustomer(fullName[0],fullName[1]);
-          return;
+          if (!fullName[0].equals("0")) {
+              createCustomer(fullName[0], fullName[1]);
           }
+          return;
       }
     }
   }

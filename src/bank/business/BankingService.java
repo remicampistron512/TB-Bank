@@ -1,5 +1,6 @@
 package bank.business;
 
+import bank.daos.AccountDao;
 import bank.daos.CustomerDao;
 import bank.models.Account;
 import bank.models.Customer;
@@ -26,12 +27,10 @@ public class BankingService {
   }
 
   // Accounts
-  public void createAccountForCustomer(long customerId,
-      String accountNumber,
-      BigDecimal initialBalance,
-      BigDecimal overdraftLimit,
-      BigDecimal dailyWithdrawalLimit) {
-    throw new UnsupportedOperationException("Not implemented");
+  public void createAccountForCustomer(Customer customer,
+      String accountName) {
+      AccountDao accountDao = new AccountDao();
+      accountDao.createAccount(customer,accountName);
   }
 
   public Account getAccount(String accountNumber, boolean includeHistory) {
